@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		647EE58A8147B927FB578E27 /* Pods_UrbanDictionary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF4A7443B8F28C8DAB8BED9 /* Pods_UrbanDictionary.framework */; };
 		E3268EC21FEFEF9900548969 /* UrbanDictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3268EC11FEFEF9900548969 /* UrbanDictionaryTests.swift */; };
 		E3268ED91FEFF06100548969 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3268ECD1FEFF06100548969 /* Assets.xcassets */; };
 		E3268EDA1FEFF06100548969 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3268ECE1FEFF06100548969 /* LaunchScreen.storyboard */; };
@@ -14,6 +15,7 @@
 		E3268EDC1FEFF06100548969 /* UrbanDictionary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E3268ED21FEFF06100548969 /* UrbanDictionary.xcdatamodeld */; };
 		E3268EDD1FEFF06100548969 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3268ED51FEFF06100548969 /* ViewController.swift */; };
 		E3268EDE1FEFF06100548969 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3268ED61FEFF06100548969 /* AppDelegate.swift */; };
+		E3268EE81FEFF3FA00548969 /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3268EE71FEFF3FA00548969 /* APIProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +29,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		107AD93A062E9FFC4860B16C /* Pods-UrbanDictionary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrbanDictionary.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UrbanDictionary/Pods-UrbanDictionary.debug.xcconfig"; sourceTree = "<group>"; };
+		2170CB05FEF94F25CB8E406F /* Pods-UrbanDictionary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrbanDictionary.release.xcconfig"; path = "Pods/Target Support Files/Pods-UrbanDictionary/Pods-UrbanDictionary.release.xcconfig"; sourceTree = "<group>"; };
+		3AF4A7443B8F28C8DAB8BED9 /* Pods_UrbanDictionary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UrbanDictionary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3268EA61FEFEF9900548969 /* UrbanDictionary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UrbanDictionary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3268EBD1FEFEF9900548969 /* UrbanDictionaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UrbanDictionaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3268EC11FEFEF9900548969 /* UrbanDictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrbanDictionaryTests.swift; sourceTree = "<group>"; };
@@ -38,6 +43,7 @@
 		E3268ED51FEFF06100548969 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E3268ED61FEFF06100548969 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E3268ED81FEFF06100548969 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E3268EE71FEFF3FA00548969 /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				647EE58A8147B927FB578E27 /* Pods_UrbanDictionary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,12 +65,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D4B4A04DFFE4A7A659C44E18 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				107AD93A062E9FFC4860B16C /* Pods-UrbanDictionary.debug.xcconfig */,
+				2170CB05FEF94F25CB8E406F /* Pods-UrbanDictionary.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		E3268E9D1FEFEF9900548969 = {
 			isa = PBXGroup;
 			children = (
 				E3268EA81FEFEF9900548969 /* UrbanDictionary */,
 				E3268EC01FEFEF9900548969 /* UrbanDictionaryTests */,
 				E3268EA71FEFEF9900548969 /* Products */,
+				D4B4A04DFFE4A7A659C44E18 /* Pods */,
+				ECCF7A1C3A66AC774A8C6D8B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +127,7 @@
 		E3268ED41FEFF06100548969 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E3268EE41FEFF2BE00548969 /* Networking */,
 				E3268ED51FEFF06100548969 /* ViewController.swift */,
 				E3268ED61FEFF06100548969 /* AppDelegate.swift */,
 			);
@@ -155,6 +174,22 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		E3268EE41FEFF2BE00548969 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				E3268EE71FEFF3FA00548969 /* APIProvider.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		ECCF7A1C3A66AC774A8C6D8B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3AF4A7443B8F28C8DAB8BED9 /* Pods_UrbanDictionary.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -162,9 +197,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E3268EC61FEFEF9A00548969 /* Build configuration list for PBXNativeTarget "UrbanDictionary" */;
 			buildPhases = (
+				4C4334CBC9F36B5B7C749352 /* [CP] Check Pods Manifest.lock */,
 				E3268EA21FEFEF9900548969 /* Sources */,
 				E3268EA31FEFEF9900548969 /* Frameworks */,
 				E3268EA41FEFEF9900548969 /* Resources */,
+				A1FDB21DDF0A81BAAC38D950 /* [CP] Embed Pods Frameworks */,
+				BE37F52D06C9D9F1238F6D35 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -253,12 +291,67 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4C4334CBC9F36B5B7C749352 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-UrbanDictionary-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A1FDB21DDF0A81BAAC38D950 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-UrbanDictionary/Pods-UrbanDictionary-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UrbanDictionary/Pods-UrbanDictionary-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BE37F52D06C9D9F1238F6D35 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UrbanDictionary/Pods-UrbanDictionary-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E3268EA21FEFEF9900548969 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E3268EDE1FEFF06100548969 /* AppDelegate.swift in Sources */,
+				E3268EE81FEFF3FA00548969 /* APIProvider.swift in Sources */,
 				E3268EDD1FEFF06100548969 /* ViewController.swift in Sources */,
 				E3268EDC1FEFF06100548969 /* UrbanDictionary.xcdatamodeld in Sources */,
 			);
@@ -411,6 +504,7 @@
 		};
 		E3268EC71FEFEF9A00548969 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 107AD93A062E9FFC4860B16C /* Pods-UrbanDictionary.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
@@ -427,6 +521,7 @@
 		};
 		E3268EC81FEFEF9A00548969 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2170CB05FEF94F25CB8E406F /* Pods-UrbanDictionary.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;

@@ -12,7 +12,10 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        APIProvider.requestSearchResults(using: "wat") { (response, error) in
+            debugPrint("response is \(response)")
+        }
     }
 
     override func didReceiveMemoryWarning() {
