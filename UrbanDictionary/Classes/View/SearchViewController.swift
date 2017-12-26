@@ -11,7 +11,12 @@ import CoreData
 
 class SearchViewController: UIViewController {
     
-    var viewModel: SearchViewModel?
+    // Outlets
+    @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet var tableView: UITableView!
+    
+    // Properties
+    private var viewModel: SearchViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,16 +30,34 @@ class SearchViewController: UIViewController {
     }
 }
 
+extension SearchViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel?.search(for: searchText)
+    }
+}
+
 extension SearchViewController: SearchViewModelDelegate {
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
+    func viewModelDidUpdateSearchResults(_ viewModel: SearchViewModel) {
+        tableView.reloadData()
+    }
+}
+
+extension SearchViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let viewModel = viewModel else { return 0 }
+        return viewModel.resultCount()
     }
     
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let viewModel = viewModel,
+              let result = viewModel.result(at: indexPath),
+              let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as? SearchResultCell else { return UITableViewCell() }
         
+        cell.textLabel?.text = result.title
+        return cell
     }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        
-    }
+}
+
+extension SearchViewController: UITableViewDelegate {
+
 }

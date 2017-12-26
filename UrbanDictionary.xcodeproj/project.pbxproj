@@ -22,6 +22,8 @@
 		E3E1E4FF1FF2904F00217B1F /* SearchResult+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3694DCF1FF2839C00848AEB /* SearchResult+CoreDataProperties.swift */; };
 		E3E1E5011FF291CB00217B1F /* SearchResult+Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E1E5001FF291CB00217B1F /* SearchResult+Fetch.swift */; };
 		E3E1E5031FF293FA00217B1F /* SearchResult+Insert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E1E5021FF293FA00217B1F /* SearchResult+Insert.swift */; };
+		E3E7D11C1FF2CD1E00928D13 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E7D11B1FF2CD1E00928D13 /* SearchResultCell.swift */; };
+		E3E7D11E1FF2CDF600928D13 /* SearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E7D11D1FF2CDF600928D13 /* SearchResultViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		E3694DD31FF2856300848AEB /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		E3E1E5001FF291CB00217B1F /* SearchResult+Fetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchResult+Fetch.swift"; sourceTree = "<group>"; };
 		E3E1E5021FF293FA00217B1F /* SearchResult+Insert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchResult+Insert.swift"; sourceTree = "<group>"; };
+		E3E7D11B1FF2CD1E00928D13 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		E3E7D11D1FF2CDF600928D13 /* SearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				E3694DD31FF2856300848AEB /* SearchViewModel.swift */,
+				E3E7D11D1FF2CDF600928D13 /* SearchResultViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -212,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				E3268ED51FEFF06100548969 /* SearchViewController.swift */,
+				E3E7D11B1FF2CD1E00928D13 /* SearchResultCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -391,8 +397,10 @@
 				E3694DD41FF2856300848AEB /* SearchViewModel.swift in Sources */,
 				E3268EDD1FEFF06100548969 /* SearchViewController.swift in Sources */,
 				E3E1E5011FF291CB00217B1F /* SearchResult+Fetch.swift in Sources */,
+				E3E7D11E1FF2CDF600928D13 /* SearchResultViewModel.swift in Sources */,
 				E3694DCD1FF2819F00848AEB /* CoreDataCoordinator.swift in Sources */,
 				E3E1E4FE1FF2904C00217B1F /* SearchResult+CoreDataClass.swift in Sources */,
+				E3E7D11C1FF2CD1E00928D13 /* SearchResultCell.swift in Sources */,
 				E3268EDC1FEFF06100548969 /* UrbanDictionary.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
