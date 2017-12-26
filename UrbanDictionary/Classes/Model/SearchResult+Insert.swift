@@ -35,7 +35,6 @@ extension SearchResult {
                 let searchResult = result ?? SearchResult(entity: entityDescription, insertInto: context)
                 try? searchResult.update(using: json)
                 searchResult.fromQuery = query
-                debugPrint("Search result saved: \(searchResult)\n\n")
                 try? context.save()
             })
         }

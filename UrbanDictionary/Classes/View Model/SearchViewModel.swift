@@ -10,29 +10,31 @@ import Foundation
 import CoreData
 import Alamofire
 
-class SearchViewModel {
+protocol SearchViewModelDelegate: NSFetchedResultsControllerDelegate {
     
-    // Properties
-    let fetchedResultsController: NSFetchedResultsController<SearchResult>
+}
+
+class SearchViewModel: NSObject {
     
     // Private
     private var currentSearchRequest: DataRequest?
+    private var fetchedResultsController: NSFetchedResultsController<SearchResult>?
     
     // Dependencies
     let coreDataCoordinator: () -> CoreDataCoordinator
     let apiProvider: () -> APIProvider
+    let delegate: SearchViewModelDelegate
     
-    init(coreDataCoordinator: @escaping () -> CoreDataCoordinator = { return CoreDataCoordinator() },
-         apiProvider: @escaping () -> APIProvider = { return APIProvider() }) {
+    init(delegate: SearchViewModelDelegate,
+         coreDataCoordinator: @escaping () -> CoreDataCoordinator,
+         apiProvider: @escaping () -> APIProvider) {
+        self.delegate = delegate
         self.coreDataCoordinator = coreDataCoordinator
         self.apiProvider = apiProvider
-        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: SearchResult.fetchRequest(),
-                                                                   managedObjectContext: coreDataCoordinator().readContext,
-                                                                   sectionNameKeyPath: nil,
-                                                                   cacheName: nil)
     }
     
     func search(for query: String) {
+        setupFetchedResultsController(for: query)
         currentSearchRequest?.cancel()
         currentSearchRequest = apiProvider().requestSearchResults(using: query, { [weak self] (response, error) in
             guard let moc = self?.coreDataCoordinator().writeContext else { return }
@@ -43,5 +45,28 @@ class SearchViewModel {
                 }
             }
         })
+    }
+    
+    private func setupFetchedResultsController(for query: String) {
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: SearchResult.fetchRequest(for: query, sortedBy: .thumbsUp),
+                                                              managedObjectContext: coreDataCoordinator().readContext,
+                                                              sectionNameKeyPath: nil,
+                                                              cacheName: nil)
+        fetchedResultsController?.delegate = self
+        try? fetchedResultsController?.performFetch()
+    }
+}
+
+extension SearchViewModel: NSFetchedResultsControllerDelegate {
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        delegate.controller?(controller, didChange: anObject, at: indexPath, for: type, newIndexPath: newIndexPath)
+    }
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        delegate.controllerWillChangeContent?(controller)
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        delegate.controllerDidChangeContent?(controller)
     }
 }

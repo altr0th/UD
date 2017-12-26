@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 
 class CoreDataCoordinator {
+    
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
@@ -40,7 +41,6 @@ class CoreDataCoordinator {
     
     lazy var writeContext: NSManagedObjectContext = {
         let context = persistentContainer.newBackgroundContext()
-        //NotificationCenter.default.addObserver(self, selector: #selector(managedObjectContextDidSave:), name: .contextdid, object: <#T##Any?#>)
         return context
     }()
     

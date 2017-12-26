@@ -13,7 +13,7 @@
 		E3268EDA1FEFF06100548969 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3268ECE1FEFF06100548969 /* LaunchScreen.storyboard */; };
 		E3268EDB1FEFF06100548969 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3268ED01FEFF06100548969 /* Main.storyboard */; };
 		E3268EDC1FEFF06100548969 /* UrbanDictionary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E3268ED21FEFF06100548969 /* UrbanDictionary.xcdatamodeld */; };
-		E3268EDD1FEFF06100548969 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3268ED51FEFF06100548969 /* ViewController.swift */; };
+		E3268EDD1FEFF06100548969 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3268ED51FEFF06100548969 /* SearchViewController.swift */; };
 		E3268EDE1FEFF06100548969 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3268ED61FEFF06100548969 /* AppDelegate.swift */; };
 		E3268EE81FEFF3FA00548969 /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3268EE71FEFF3FA00548969 /* APIProvider.swift */; };
 		E3694DCD1FF2819F00848AEB /* CoreDataCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3694DCC1FF2819F00848AEB /* CoreDataCoordinator.swift */; };
@@ -46,7 +46,7 @@
 		E3268ECF1FEFF06100548969 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E3268ED11FEFF06100548969 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E3268ED31FEFF06100548969 /* UrbanDictionary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UrbanDictionary.xcdatamodel; sourceTree = "<group>"; };
-		E3268ED51FEFF06100548969 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E3268ED51FEFF06100548969 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		E3268ED61FEFF06100548969 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E3268ED81FEFF06100548969 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E3268EE71FEFF3FA00548969 /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
@@ -138,10 +138,10 @@
 		E3268ED41FEFF06100548969 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E3E7D11A1FF2C1D300928D13 /* View */,
 				E3694DD21FF2854900848AEB /* View Model */,
 				E3694DCA1FF2814400848AEB /* Model */,
 				E3268EE41FEFF2BE00548969 /* Networking */,
-				E3268ED51FEFF06100548969 /* ViewController.swift */,
 				E3268ED61FEFF06100548969 /* AppDelegate.swift */,
 			);
 			path = Classes;
@@ -206,6 +206,14 @@
 				E3694DD31FF2856300848AEB /* SearchViewModel.swift */,
 			);
 			path = "View Model";
+			sourceTree = "<group>";
+		};
+		E3E7D11A1FF2C1D300928D13 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E3268ED51FEFF06100548969 /* SearchViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		ECCF7A1C3A66AC774A8C6D8B /* Frameworks */ = {
@@ -381,7 +389,7 @@
 				E3268EE81FEFF3FA00548969 /* APIProvider.swift in Sources */,
 				E3E1E5031FF293FA00217B1F /* SearchResult+Insert.swift in Sources */,
 				E3694DD41FF2856300848AEB /* SearchViewModel.swift in Sources */,
-				E3268EDD1FEFF06100548969 /* ViewController.swift in Sources */,
+				E3268EDD1FEFF06100548969 /* SearchViewController.swift in Sources */,
 				E3E1E5011FF291CB00217B1F /* SearchResult+Fetch.swift in Sources */,
 				E3694DCD1FF2819F00848AEB /* CoreDataCoordinator.swift in Sources */,
 				E3E1E4FE1FF2904C00217B1F /* SearchResult+CoreDataClass.swift in Sources */,

@@ -16,8 +16,9 @@ extension SearchResult {
         case thumbsDown = "thumbsDownCount"
     }
     
-    class func fetchRequest(sortedBy sortType: SearchResultSortType = .thumbsUp) -> NSFetchRequest<SearchResult> {
+    class func fetchRequest(for query: String, sortedBy sortType: SearchResultSortType = .thumbsUp) -> NSFetchRequest<SearchResult> {
         let request = NSFetchRequest<SearchResult>(entityName: "SearchResult")
+        request.predicate = NSPredicate(format: "fromQuery == %@", argumentArray: [ query ])
         request.sortDescriptors = [ NSSortDescriptor(key: sortType.rawValue, ascending: false) ]
         return request
     }
