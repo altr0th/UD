@@ -7,22 +7,24 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
 
+    var testModel: SearchViewModel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        APIProvider.requestSearchResults(using: "wat") { (response, error) in
-            debugPrint("response is \(response)")
-        }
+        testModel = SearchViewModel()
+        testModel?.fetchedResultsController.delegate = self
+        try? testModel?.fetchedResultsController.performFetch()
+        testModel?.search(for: "wat")
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
+extension ViewController: NSFetchedResultsControllerDelegate {
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        debugPrint("did it")
+    }
+}
