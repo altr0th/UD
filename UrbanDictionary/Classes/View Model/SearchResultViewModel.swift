@@ -9,5 +9,15 @@
 import Foundation
 
 class SearchResultViewModel {
-    var title: String?
+    let title: String?
+    let body: String?
+    let thumbUpCount: Int32
+    let thumbDownCount: Int32
+    
+    init(searchResult: SearchResult) {
+        title = searchResult.word
+        body = searchResult.definition
+        thumbUpCount = searchResult.thumbsUpCount
+        thumbDownCount = searchResult.thumbsDownCount
+    }
 }

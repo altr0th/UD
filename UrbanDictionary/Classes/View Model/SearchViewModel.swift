@@ -10,46 +10,29 @@ import Foundation
 import CoreData
 import Alamofire
 
-protocol SearchViewModelDelegate {
-    func viewModelDidUpdateSearchResults(_ viewModel: SearchViewModel)
-}
-
 class SearchViewModel: NSObject {
+    
+    // Bindings
+    var searchResultsDidChange: (() -> Void)?
+    var networkActivityDidChange: ((Bool) -> Void)?
     
     // Private
     private var currentSearchRequest: DataRequest?
     private var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
-    private var delegate: SearchViewModelDelegate
+    private var isNetworkActive: Bool = false {
+        didSet {
+            networkActivityDidChange?(isNetworkActive)
+        }
+    }
     
     // Dependencies
     let coreDataCoordinator: () -> CoreDataCoordinator
     let apiProvider: () -> APIProvider
     
-    init(delegate: SearchViewModelDelegate,
-         coreDataCoordinator: @escaping () -> CoreDataCoordinator,
+    init(coreDataCoordinator: @escaping () -> CoreDataCoordinator,
          apiProvider: @escaping () -> APIProvider) {
-        self.delegate = delegate
         self.coreDataCoordinator = coreDataCoordinator
         self.apiProvider = apiProvider
-    }
-    
-    func search(for query: String) {
-        setupFetchedResultsController(for: query)
-        currentSearchRequest?.cancel()
-        
-        if query.count > 0 {
-            currentSearchRequest = apiProvider().requestSearchResults(using: query, { [weak self] (response, error) in
-                guard let moc = self?.coreDataCoordinator().writeContext else { return }
-                if let response = response as? [ AnyHashable : Any ],
-                   let results = response["list"] as? [[ AnyHashable : Any ]] {
-                    for result in results {
-                        SearchResult.create(from: result, query: query, in: moc)
-                    }
-                }
-            })
-        } else {
-            delegate.viewModelDidUpdateSearchResults(self)
-        }
     }
     
     private func setupFetchedResultsController(for query: String) {
@@ -60,7 +43,26 @@ class SearchViewModel: NSObject {
                                                               cacheName: nil) as? NSFetchedResultsController<NSFetchRequestResult>
         fetchedResultsController?.delegate = self
         try? fetchedResultsController?.performFetch()
-        delegate.viewModelDidUpdateSearchResults(self)
+        searchResultsDidChange?()
+    }
+    
+    func search(for query: String) {
+        setupFetchedResultsController(for: query)
+        currentSearchRequest?.cancel()
+        
+        if query.count > 0 {
+            isNetworkActive = true
+            currentSearchRequest = apiProvider().requestSearchResults(using: query, { [weak self] (response, error) in
+                self?.isNetworkActive = false
+                guard let moc = self?.coreDataCoordinator().writeContext else { return }
+                if let response = response as? [ AnyHashable : Any ],
+                   let results = response["list"] as? [[ AnyHashable : Any ]] {
+                    for result in results {
+                        SearchResult.create(from: result, query: query, in: moc)
+                    }
+                }
+            })
+        }
     }
     
     func resultCount() -> Int {
@@ -69,8 +71,7 @@ class SearchViewModel: NSObject {
     
     func result(at indexPath: IndexPath) -> SearchResultViewModel? {
         if let searchResult = fetchedResultsController?.object(at: indexPath) as? SearchResult {
-            let resultModel = SearchResultViewModel()
-            resultModel.title = "[\(searchResult.word ?? "")] : \(searchResult.definition ?? "")"
+            let resultModel = SearchResultViewModel(searchResult: searchResult)
             return resultModel
         }
         return nil
@@ -79,6 +80,6 @@ class SearchViewModel: NSObject {
 
 extension SearchViewModel: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate.viewModelDidUpdateSearchResults(self)
+        searchResultsDidChange?()
     }
 }

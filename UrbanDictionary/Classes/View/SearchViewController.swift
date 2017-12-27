@@ -14,6 +14,7 @@ class SearchViewController: UIViewController {
     // Outlets
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var networkActivityIndicator: UIActivityIndicatorView!
     
     // Properties
     private var viewModel: SearchViewModel?
@@ -26,7 +27,17 @@ class SearchViewController: UIViewController {
     private func setupViewModel() {
         let coreDataCoordinator = CoreDataCoordinator()
         let apiProvider = APIProvider()
-        viewModel = SearchViewModel(delegate: self, coreDataCoordinator: { coreDataCoordinator }, apiProvider: { apiProvider })
+        viewModel = SearchViewModel(coreDataCoordinator: { coreDataCoordinator }, apiProvider: { apiProvider })
+        viewModel?.searchResultsDidChange = { [weak self] in
+            self?.tableView.reloadData()
+        }
+        viewModel?.networkActivityDidChange = { [weak self] (active: Bool) in
+            if active {
+                self?.networkActivityIndicator.startAnimating()
+            } else {
+                self?.networkActivityIndicator.stopAnimating()
+            }
+        }
     }
 }
 
@@ -34,11 +45,17 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel?.search(for: searchText)
     }
-}
-
-extension SearchViewController: SearchViewModelDelegate {
-    func viewModelDidUpdateSearchResults(_ viewModel: SearchViewModel) {
-        tableView.reloadData()
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
 
@@ -53,7 +70,7 @@ extension SearchViewController: UITableViewDataSource {
               let result = viewModel.result(at: indexPath),
               let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as? SearchResultCell else { return UITableViewCell() }
         
-        cell.textLabel?.text = result.title
+        cell.viewModel = result
         return cell
     }
 }
