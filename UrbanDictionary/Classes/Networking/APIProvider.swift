@@ -11,9 +11,9 @@ import Alamofire
 
 typealias APIProviderCompletion = (_: Any?, _: Error?) -> Void
 
-class APIProvider {
+class APIProvider: NSObject {
     @discardableResult
-    func requestSearchResults(using query: String, _ completion: @escaping APIProviderCompletion) -> DataRequest {
+    func requestSearchResults(using query: String, _ completion: @escaping APIProviderCompletion) -> DataRequest? {
         let headers = [ "X-Mashape-Key" : "SpAAxgsIabmshIAz9zIs39bxYVYlp1xDzKajsnff3VFpn66EiS" ]
         let params = [ "term" : query ]
         return Alamofire.request("https://mashape-community-urban-dictionary.p.mashape.com/define", method: .get, parameters: params, encoding: URLEncoding.default, headers: headers).responseJSON { (response) in

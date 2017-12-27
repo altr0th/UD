@@ -10,11 +10,6 @@ import Foundation
 import CoreData
 
 extension SearchResult {
-    
-    enum SearchResultError: Error {
-        case missingXid
-    }
-    
     enum Keys: String {
         case xid = "defid"
         case definition
@@ -33,15 +28,15 @@ extension SearchResult {
             context.perform({
                 guard let entityDescription = NSEntityDescription.entity(forEntityName: "SearchResult", in: context) else { return }
                 let searchResult = result ?? SearchResult(entity: entityDescription, insertInto: context)
-                try? searchResult.update(using: json)
+                searchResult.update(using: json)
                 searchResult.fromQuery = query
                 try? context.save()
             })
         }
     }
     
-    private func update(using json: [AnyHashable: Any]) throws {
-        guard let id = json[Keys.xid.rawValue] as? Int32 else { throw SearchResultError.missingXid }
+    private func update(using json: [AnyHashable: Any]) {
+        guard let id = json[Keys.xid.rawValue] as? Int32 else { return }
         
         xid = id
         definition = json[Keys.definition.rawValue] as? String

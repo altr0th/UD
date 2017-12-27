@@ -11,7 +11,6 @@ import Foundation
 import CoreData
 
 extension SearchResult {
-    
     @NSManaged public var xid: Int32
     @NSManaged public var definition: String?
     @NSManaged public var link: URL?

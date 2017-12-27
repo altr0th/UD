@@ -12,13 +12,17 @@ import SafariServices
 
 class SearchViewController: UIViewController {
     
-    // Outlets
+    // MARK: Outlets
+    
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var networkActivityIndicator: UIActivityIndicatorView!
     
-    // Properties
+    // MARK: View Model
+    
     private var viewModel: SearchViewModel?
+    
+    // MARK: View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +42,11 @@ class SearchViewController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
-    
+}
+
+// MARK: - View Model Setup
+
+extension SearchViewController {
     private func setupViewModel() {
         let coreDataCoordinator = CoreDataCoordinator()
         let apiProvider = APIProvider()
@@ -60,7 +68,11 @@ class SearchViewController: UIViewController {
             searchBar.text = UserDefaults.standard.currentSearchQuery
         }
     }
-    
+}
+
+// MARK: - Sorting
+
+extension SearchViewController {
     @IBAction func didTapSortButton(_ sender: Any) {
         let sortType = viewModel?.currentSortType ?? .thumbsUp
         let thumbsUpText = sortType == .thumbsUp ? "✔︎ Thumbs Up" : "Thumbs Up"
@@ -77,11 +89,15 @@ class SearchViewController: UIViewController {
     }
 }
 
+// MARK: - Scroll View Delegate
+
 extension SearchViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         searchBar.resignFirstResponder()
     }
 }
+
+// MARK: - Search Bar Delegate
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -105,6 +121,8 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
+// MARK: - Table View Data Source
+
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
@@ -121,6 +139,8 @@ extension SearchViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - Table View Delegate
+
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let viewModel = viewModel,
@@ -134,6 +154,8 @@ extension SearchViewController: UITableViewDelegate {
         navigationController?.pushViewController(safariController, animated: true)
     }
 }
+
+// MARK: - Safari Controller Delegate
 
 extension SearchViewController: SFSafariViewControllerDelegate {
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {

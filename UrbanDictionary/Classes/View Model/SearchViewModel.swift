@@ -12,13 +12,15 @@ import Alamofire
 
 class SearchViewModel: NSObject {
     
-    // Bindings
+    // MARK: Closures
+    
     var searchResultsDidChange: (() -> Void)?
     var networkActivityDidChange: ((Bool) -> Void)?
     
-    // Private
-    private var currentSearchRequest: DataRequest?
-    private var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
+    // MARK: Private Properties
+    
+    private(set) var currentSearchRequest: DataRequest?
+    private(set) var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
     private var isNetworkActive: Bool = false {
         didSet {
             networkActivityDidChange?(isNetworkActive)
@@ -26,41 +28,38 @@ class SearchViewModel: NSObject {
     }
     private var currentSearchQuery: String {
         didSet {
-            UserDefaults.standard.currentSearchQuery = currentSearchQuery
+            userDefaults().currentSearchQuery = currentSearchQuery
         }
     }
     public private(set) var currentSortType: SearchResultSortType {
         didSet {
-            UserDefaults.standard.currentSortType = currentSortType.rawValue
+            userDefaults().currentSortType = currentSortType.rawValue
         }
     }
     
-    // Dependencies
+    // MARK: Dependencies
+    
     let coreDataCoordinator: () -> CoreDataCoordinator
     let apiProvider: () -> APIProvider
+    let userDefaults: () -> UserDefaults
     
     init(coreDataCoordinator: @escaping () -> CoreDataCoordinator,
-         apiProvider: @escaping () -> APIProvider) {
+         apiProvider: @escaping () -> APIProvider,
+         userDefaults: @escaping () -> UserDefaults = { UserDefaults.standard }) {
         self.coreDataCoordinator = coreDataCoordinator
         self.apiProvider = apiProvider
+        self.userDefaults = userDefaults
         currentSearchQuery = UserDefaults.standard.currentSearchQuery
         currentSortType = SearchResultSortType(rawValue: UserDefaults.standard.currentSortType) ?? SearchResultSortType.thumbsUp
         super.init()
         
         setupFetchedResultsController(for: currentSearchQuery)
     }
-    
-    private func setupFetchedResultsController(for query: String) {
-        fetchedResultsController?.delegate = nil
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: SearchResult.fetchRequest(for: query, sortedBy: currentSortType),
-                                                              managedObjectContext: coreDataCoordinator().readContext,
-                                                              sectionNameKeyPath: nil,
-                                                              cacheName: nil) as? NSFetchedResultsController<NSFetchRequestResult>
-        fetchedResultsController?.delegate = self
-        try? fetchedResultsController?.performFetch()
-        searchResultsDidChange?()
-    }
-    
+}
+
+// MARK: - Public Search Methods
+
+extension SearchViewModel {
     func search(for query: String) {
         currentSearchQuery = query
         setupFetchedResultsController(for: query)
@@ -72,7 +71,7 @@ class SearchViewModel: NSObject {
                 self?.isNetworkActive = false
                 guard let moc = self?.coreDataCoordinator().writeContext else { return }
                 if let response = response as? [ AnyHashable : Any ],
-                   let results = response["list"] as? [[ AnyHashable : Any ]] {
+                    let results = response["list"] as? [[ AnyHashable : Any ]] {
                     for result in results {
                         SearchResult.create(from: result, query: query, in: moc)
                     }
@@ -100,6 +99,20 @@ class SearchViewModel: NSObject {
         return nil
     }
 }
+
+// MARK: - Fetched Results Controller Setup
+
+extension SearchViewModel {
+    private func setupFetchedResultsController(for query: String) {
+        fetchedResultsController?.delegate = nil
+        fetchedResultsController = coreDataCoordinator().createFetchedResultsController(for: query, sortType: currentSortType)
+        fetchedResultsController?.delegate = self
+        try? fetchedResultsController?.performFetch()
+        searchResultsDidChange?()
+    }
+}
+
+// MARK: - Fetched Results Controller Delegate
 
 extension SearchViewModel: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
