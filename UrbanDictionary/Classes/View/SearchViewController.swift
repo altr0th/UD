@@ -28,9 +28,15 @@ class SearchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
         if let selectedIndexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: selectedIndexPath, animated: false)
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     private func setupViewModel() {
@@ -124,7 +130,13 @@ extension SearchViewController: UITableViewDelegate {
         configuration.barCollapsingEnabled = false
         let safariController = SFSafariViewController(url: url, configuration: configuration)
         safariController.preferredBarTintColor = navigationController?.navigationBar.barTintColor
-        safariController.navigationItem.title = result.title
+        safariController.delegate = self
         navigationController?.pushViewController(safariController, animated: true)
+    }
+}
+
+extension SearchViewController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        navigationController?.popToRootViewController(animated: true)
     }
 }

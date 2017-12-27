@@ -572,7 +572,7 @@
 				PROVISIONING_PROFILE = "7e6ad1ee-d244-4915-a04f-3e2628e45c3c";
 				PROVISIONING_PROFILE_SPECIFIER = "Roth Generic Dev Profile";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -590,7 +590,7 @@
 				PROVISIONING_PROFILE = "7e6ad1ee-d244-4915-a04f-3e2628e45c3c";
 				PROVISIONING_PROFILE_SPECIFIER = "Roth Generic Dev Profile";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
