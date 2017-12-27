@@ -9,13 +9,12 @@
 import Foundation
 import CoreData
 
+enum SearchResultSortType: String {
+    case thumbsUp = "thumbsUpCount"
+    case thumbsDown = "thumbsDownCount"
+}
+
 extension SearchResult {
-    
-    enum SearchResultSortType: String {
-        case thumbsUp = "thumbsUpCount"
-        case thumbsDown = "thumbsDownCount"
-    }
-    
     class func fetchRequest(for query: String, sortedBy sortType: SearchResultSortType = .thumbsUp) -> NSFetchRequest<SearchResult> {
         let request = NSFetchRequest<SearchResult>(entityName: "SearchResult")
         request.predicate = NSPredicate(format: "fromQuery == %@", argumentArray: [ query ])

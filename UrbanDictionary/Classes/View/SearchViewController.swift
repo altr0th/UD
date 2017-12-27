@@ -22,6 +22,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewModel()
+        setupPersistedState()
     }
     
     private func setupViewModel() {
@@ -38,6 +39,25 @@ class SearchViewController: UIViewController {
                 self?.networkActivityIndicator.stopAnimating()
             }
         }
+    }
+    
+    private func setupPersistedState() {
+        if UserDefaults.standard.currentSearchQuery.count > 0 {
+            searchBar.text = UserDefaults.standard.currentSearchQuery
+            searchBar.becomeFirstResponder()
+        }
+    }
+    
+    @IBAction func didTapSortButton(_ sender: Any) {
+        let actionSheet = UIAlertController(title: "Sort by", message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Thumbs Up", style: .default, handler: { (action) in
+            self.viewModel?.sort(by: .thumbsUp)
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Thumbs Down", style: .default, handler: { (action) in
+            self.viewModel?.sort(by: .thumbsDown)
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(actionSheet, animated: true, completion: nil)
     }
 }
 

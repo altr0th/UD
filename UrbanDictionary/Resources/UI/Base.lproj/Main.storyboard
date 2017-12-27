@@ -169,7 +169,11 @@
                                 </constraints>
                             </view>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="Sort" id="QA3-YF-sh8"/>
+                        <barButtonItem key="rightBarButtonItem" image="Sort" id="QA3-YF-sh8">
+                            <connections>
+                                <action selector="didTapSortButton:" destination="BYZ-38-t0r" id="G9r-1g-Rfv"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="networkActivityIndicator" destination="yBC-AL-7nF" id="PWa-Iv-xqg"/>

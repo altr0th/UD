@@ -24,6 +24,16 @@ class SearchViewModel: NSObject {
             networkActivityDidChange?(isNetworkActive)
         }
     }
+    private var currentSearchQuery: String {
+        didSet {
+            UserDefaults.standard.currentSearchQuery = currentSearchQuery
+        }
+    }
+    private var currentSortType: SearchResultSortType {
+        didSet {
+            UserDefaults.standard.currentSortType = currentSortType.rawValue
+        }
+    }
     
     // Dependencies
     let coreDataCoordinator: () -> CoreDataCoordinator
@@ -33,11 +43,16 @@ class SearchViewModel: NSObject {
          apiProvider: @escaping () -> APIProvider) {
         self.coreDataCoordinator = coreDataCoordinator
         self.apiProvider = apiProvider
+        currentSearchQuery = UserDefaults.standard.currentSearchQuery
+        currentSortType = SearchResultSortType(rawValue: UserDefaults.standard.currentSortType) ?? SearchResultSortType.thumbsUp
+        super.init()
+        
+        setupFetchedResultsController(for: currentSearchQuery)
     }
     
     private func setupFetchedResultsController(for query: String) {
         fetchedResultsController?.delegate = nil
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: SearchResult.fetchRequest(for: query, sortedBy: .thumbsUp),
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: SearchResult.fetchRequest(for: query, sortedBy: currentSortType),
                                                               managedObjectContext: coreDataCoordinator().readContext,
                                                               sectionNameKeyPath: nil,
                                                               cacheName: nil) as? NSFetchedResultsController<NSFetchRequestResult>
@@ -47,6 +62,7 @@ class SearchViewModel: NSObject {
     }
     
     func search(for query: String) {
+        currentSearchQuery = query
         setupFetchedResultsController(for: query)
         currentSearchRequest?.cancel()
         
@@ -62,7 +78,14 @@ class SearchViewModel: NSObject {
                     }
                 }
             })
+        } else {
+            isNetworkActive = false
         }
+    }
+    
+    func sort(by sortType: SearchResultSortType) {
+        currentSortType = sortType
+        setupFetchedResultsController(for: currentSearchQuery)
     }
     
     func resultCount() -> Int {
