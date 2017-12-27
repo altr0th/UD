@@ -13,11 +13,13 @@ class SearchResultViewModel {
     let body: String?
     let thumbUpCount: Int32
     let thumbDownCount: Int32
+    let webURL: URL?
     
     init(searchResult: SearchResult) {
         title = searchResult.word
         body = searchResult.definition
         thumbUpCount = searchResult.thumbsUpCount
         thumbDownCount = searchResult.thumbsDownCount
+        webURL = searchResult.link
     }
 }

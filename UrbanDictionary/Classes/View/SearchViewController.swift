@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SafariServices
 
 class SearchViewController: UIViewController {
     
@@ -23,6 +24,13 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         setupViewModel()
         setupPersistedState()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let selectedIndexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: selectedIndexPath, animated: false)
+        }
     }
     
     private func setupViewModel() {
@@ -44,20 +52,28 @@ class SearchViewController: UIViewController {
     private func setupPersistedState() {
         if UserDefaults.standard.currentSearchQuery.count > 0 {
             searchBar.text = UserDefaults.standard.currentSearchQuery
-            searchBar.becomeFirstResponder()
         }
     }
     
     @IBAction func didTapSortButton(_ sender: Any) {
+        let sortType = viewModel?.currentSortType ?? .thumbsUp
+        let thumbsUpText = sortType == .thumbsUp ? "✔︎ Thumbs Up" : "Thumbs Up"
+        let thumbsDownText = sortType == .thumbsDown ? "✔︎ Thumbs Down" : "Thumbs Down"
         let actionSheet = UIAlertController(title: "Sort by", message: nil, preferredStyle: .actionSheet)
-        actionSheet.addAction(UIAlertAction(title: "Thumbs Up", style: .default, handler: { (action) in
+        actionSheet.addAction(UIAlertAction(title: thumbsUpText, style: .default, handler: { (action) in
             self.viewModel?.sort(by: .thumbsUp)
         }))
-        actionSheet.addAction(UIAlertAction(title: "Thumbs Down", style: .default, handler: { (action) in
+        actionSheet.addAction(UIAlertAction(title: thumbsDownText, style: .default, handler: { (action) in
             self.viewModel?.sort(by: .thumbsDown)
         }))
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(actionSheet, animated: true, completion: nil)
+        present(actionSheet, animated: true, completion: nil)
+    }
+}
+
+extension SearchViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
     }
 }
 
@@ -75,6 +91,10 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
 }
@@ -96,5 +116,15 @@ extension SearchViewController: UITableViewDataSource {
 }
 
 extension SearchViewController: UITableViewDelegate {
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let viewModel = viewModel,
+            let result = viewModel.result(at: indexPath),
+            let url = result.webURL else { return }
+        let configuration = SFSafariViewController.Configuration()
+        configuration.barCollapsingEnabled = false
+        let safariController = SFSafariViewController(url: url, configuration: configuration)
+        safariController.preferredBarTintColor = navigationController?.navigationBar.barTintColor
+        safariController.navigationItem.title = result.title
+        navigationController?.pushViewController(safariController, animated: true)
+    }
 }

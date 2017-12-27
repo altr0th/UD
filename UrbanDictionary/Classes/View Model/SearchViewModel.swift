@@ -29,7 +29,7 @@ class SearchViewModel: NSObject {
             UserDefaults.standard.currentSearchQuery = currentSearchQuery
         }
     }
-    private var currentSortType: SearchResultSortType {
+    public private(set) var currentSortType: SearchResultSortType {
         didSet {
             UserDefaults.standard.currentSortType = currentSortType.rawValue
         }
